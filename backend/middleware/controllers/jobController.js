@@ -1,5 +1,6 @@
 
-const Job = require("../models/Job");
+
+const Job = require("../../models/Job");
 
 // Create a job application
 exports.createJob = async (req, res) => {
@@ -8,7 +9,7 @@ exports.createJob = async (req, res) => {
 
     if (!company || !position) {
       return res.status(400).json({
-        message: "Company and position are required"
+        message: "Company and position are required",
       });
     }
 
@@ -17,70 +18,92 @@ exports.createJob = async (req, res) => {
       position,
       status,
       jobLink,
-      notes
+      notes,
     });
 
-    res.status(201).json(job);
+    return res.status(201).json(job);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// Get all applications
+// Get all job applications
 exports.getJobs = async (req, res) => {
   try {
     const jobs = await Job.find().sort({ createdAt: -1 });
-    res.status(200).json(jobs);
+
+    return res.status(200).json(jobs);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// Get one application
+// Get a single job application
 exports.getJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
 
     if (!job) {
-      return res.status(404).json({ message: "Job not found" });
+      return res.status(404).json({
+        message: "Job not found",
+      });
     }
 
-    res.json(job);
+    return res.status(200).json(job);
   } catch (error) {
-    res.status(400).json({ message: "Invalid job ID" });
+    return res.status(400).json({
+      message: "Invalid job ID",
+    });
   }
 };
 
-// Update an application
+// Update a job application
 exports.updateJob = async (req, res) => {
   try {
     const job = await Job.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      {
+        new: true,
+        runValidators: true,
+      }
     );
 
     if (!job) {
-      return res.status(404).json({ message: "Job not found" });
+      return res.status(404).json({
+        message: "Job not found",
+      });
     }
 
-    res.json(job);
+    return res.status(200).json(job);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({
+      message: error.message,
+    });
   }
 };
 
-// Delete an application
+// Delete a job application
 exports.deleteJob = async (req, res) => {
   try {
     const job = await Job.findByIdAndDelete(req.params.id);
 
     if (!job) {
-      return res.status(404).json({ message: "Job not found" });
+      return res.status(404).json({
+        message: "Job not found",
+      });
     }
 
-    res.json({ message: "Application deleted successfully" });
+    return res.status(200).json({
+      message: "Application deleted successfully",
+    });
   } catch (error) {
-    res.status(400).json({ message: "Invalid job ID" });
+    return res.status(400).json({
+      message: "Invalid job ID",
+    });
   }
 };

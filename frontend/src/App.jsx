@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar.jsx";
 import JobForm from "./components/JobForm.jsx";
 import JobList from "./components/JobList.jsx";
 import DashboardCards from "./components/DashboardCards.jsx";
+import ApplicationChart from "./components/ApplicationChart.jsx";
 
 import {
   getJobs,
@@ -92,7 +93,7 @@ function App() {
       <Navbar />
 
       <main className="main-content">
-        {/* Hero banner inspired by your Pinterest design */}
+        {/* Hero banner */}
         <header className="hero-banner">
           <div className="hero-content">
             <span className="hero-eyebrow">
@@ -116,7 +117,9 @@ function App() {
               onClick={loadJobs}
               disabled={refreshing}
             >
-              {refreshing ? "Refreshing..." : "Refresh Applications"}
+              {refreshing
+                ? "Refreshing..."
+                : "Refresh Applications"}
             </button>
           </div>
 
@@ -142,6 +145,7 @@ function App() {
           </div>
         ) : (
           <>
+            {/* Application statistics */}
             <section
               className="dashboard-section"
               aria-label="Application statistics"
@@ -149,6 +153,15 @@ function App() {
               <DashboardCards jobs={jobs} />
             </section>
 
+            {/* Application status chart */}
+            <section
+              className="dashboard-section"
+              aria-label="Application status chart"
+            >
+              <ApplicationChart jobs={jobs} />
+            </section>
+
+            {/* Add a job application */}
             <section
               id="add-job"
               className="dashboard-section"
@@ -157,6 +170,7 @@ function App() {
               <JobForm onAddJob={handleAddJob} />
             </section>
 
+            {/* All job applications */}
             <section
               id="applications"
               className="dashboard-section"
@@ -176,3 +190,4 @@ function App() {
 }
 
 export default App;
+

@@ -1,18 +1,52 @@
 
 export default function DashboardCards({ jobs }) {
+  const totalApplications = jobs.length;
+
+  const appliedCount = jobs.filter(
+    (job) => job.status === "Applied"
+  ).length;
+
+  const interviewCount = jobs.filter(
+    (job) => job.status === "Interview"
+  ).length;
+
+  const offerCount = jobs.filter(
+    (job) => job.status === "Offer"
+  ).length;
+
+  const rejectedCount = jobs.filter(
+    (job) => job.status === "Rejected"
+  ).length;
+
+  const successRate =
+    totalApplications === 0
+      ? 0
+      : Math.round((offerCount / totalApplications) * 100);
+
   const cards = [
-    { label: "Total Applications", value: jobs.length },
+    {
+      label: "Total Applications",
+      value: totalApplications,
+    },
     {
       label: "Applied",
-      value: jobs.filter((job) => job.status === "Applied").length,
+      value: appliedCount,
     },
     {
       label: "Interviews",
-      value: jobs.filter((job) => job.status === "Interview").length,
+      value: interviewCount,
     },
     {
       label: "Offers",
-      value: jobs.filter((job) => job.status === "Offer").length,
+      value: offerCount,
+    },
+    {
+      label: "Rejected",
+      value: rejectedCount,
+    },
+    {
+      label: "Success Rate",
+      value: `${successRate}%`,
     },
   ];
 
